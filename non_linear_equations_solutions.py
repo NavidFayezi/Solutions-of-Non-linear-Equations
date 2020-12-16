@@ -1,7 +1,6 @@
 import random
 import math
 import sympy
-import numpy
 
 x = sympy.symbols('x')
 
@@ -31,7 +30,7 @@ def bisection(a, b, f, e, maximum_iteration):
     return c
 
 
-def newtons_method(function: sympy.Add, x0, error, max_iteration): # function is a sympy expresion.
+def newtons_method(function: sympy.Add, x0, error, max_iteration):  # function is a sympy expresion.
     x1 = x0
     x2 = x0
     iteration = 0
@@ -43,6 +42,22 @@ def newtons_method(function: sympy.Add, x0, error, max_iteration): # function is
             break
     print(iteration)
     return x2
+
+
+def secant_method(function, x0, x0_1, error, max_iteration):
+    x1 = x0
+    x2 = x0_1
+    x3 = x0
+    iteration = 0
+    while iteration < max_iteration:
+        iteration += 1
+        x3 = x2 - ((x2 - x1)*function(x2) / (function(x2)-function(x1)))
+        x1 = x2
+        x2 = x3
+        if abs(function(x3)) < error:
+            break
+    print(iteration, end=' ')   # feel free to remove this line.
+    return x3
 
 
 def test_1(x):
@@ -61,3 +76,7 @@ print(bisection(-2, 6, test_2, 0.0001, 1000))
 print(newtons_method(f1, -1, 0.0001, 1000))
 print(newtons_method(f1, -2, 0.0001, 1000))
 print(newtons_method(f2, 2, 0.0001, 1000))
+print(secant_method(test_1, -1, 0, 0.0001, 1000))
+print(secant_method(test_1, -3, -2, 0.0001, 1000))
+print(secant_method(test_2, 1, 2, 0.0001, 1000))
+
