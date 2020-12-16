@@ -5,7 +5,7 @@ import sympy
 x = sympy.symbols('x')
 
 
-def bisection(a, b, f, e, maximum_iteration):
+def bisection(a, b, f, e, maximum_iteration):   # a < b, maximum iteration > 0
     iteration = 0
     temp_a = a
     temp_b = b
@@ -26,11 +26,11 @@ def bisection(a, b, f, e, maximum_iteration):
             a = c
         if abs(f(c)) < e:
             break
-    print(iteration)
+    print("Bisection method: ", c, "The answer was found after ", iteration, "iterations")
     return c
 
 
-def newtons_method(function: sympy.Add, x0, error, max_iteration):  # function is a sympy expresion.
+def newtons_method(function: sympy.Add, x0, error, max_iteration):  # function is a sympy expresion. x0 is the initial point.
     x1 = x0
     x2 = x0
     iteration = 0
@@ -40,7 +40,7 @@ def newtons_method(function: sympy.Add, x0, error, max_iteration):  # function i
         x1 = x2
         if abs(float(function.subs(x, x2))) < error:
             break
-    print(iteration)
+    print("Newtons method: ", x2, "The answer was found after ", iteration, "iterations")
     return x2
 
 
@@ -56,7 +56,7 @@ def secant_method(function, x0, x0_1, error, max_iteration):
         x2 = x3
         if abs(function(x3)) < error:
             break
-    print(iteration, end=' ')   # feel free to remove this line.
+    print("Secant method: ", x3, "The answer was found after ", iteration, "iterations")
     return x3
 
 
@@ -71,12 +71,15 @@ def test_2(x):
 f1 = (x**4) - (12.3*(x**3)) + (6.8*(x**2)) + (185.1 * x) + 189
 f2 = sympy.exp(x) + (x**2) + 100 - (6 * (x**3))
 
-print(bisection(-3, 0, test_1, 0.0001, 1000))
-print(bisection(-2, 6, test_2, 0.0001, 1000))
-print(newtons_method(f1, -1, 0.0001, 1000))
-print(newtons_method(f1, -2, 0.0001, 1000))
-print(newtons_method(f2, 2, 0.0001, 1000))
-print(secant_method(test_1, -1, 0, 0.0001, 1000))
-print(secant_method(test_1, -3, -2, 0.0001, 1000))
-print(secant_method(test_2, 1, 2, 0.0001, 1000))
-
+bisection(-3, 0, test_1, 0.0001, 1000)  # call this function multiple times until the second root is found.
+bisection(-2, 6, test_2, 0.0001, 1000)
+newtons_method(f1, -1, 0.0001, 1000)
+newtons_method(f1, -2, 0.0001, 1000)
+newtons_method(f2, 2, 0.0001, 1000)
+secant_method(test_1, -1, 0, 0.0001, 1000)
+secant_method(test_1, -3, -2, 0.0001, 1000)
+secant_method(test_2, 1, 2, 0.0001, 1000)
+print("---------")
+# Using the above methods to find the root of test_2
+x_point = bisection(-2, 6, test_2, 0.5, 5)   # x_point is a point adjacent to the root of test_2 function
+newtons_method(f2, x_point, 0.0001, 1000)    # pass x_point to newton's method as the initial guess
